@@ -1,367 +1,804 @@
 <!doctype html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>サポート | じゃんけん勝率トレーナー</title>
-<style>
-  :root {
-    color-scheme: light;
-  }
-  * {
-    box-sizing: border-box;
-  }
-  body {
-    margin: 0;
-    padding: 0;
-    background: #ffffff;
-    color: #1c1c1e;
-    font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", "Segoe UI", sans-serif;
-    line-height: 1.8;
-    -webkit-text-size-adjust: 100%;
-  }
-  .wrap {
-    max-width: 680px;
-    margin: 0 auto;
-    padding: 32px 20px 64px;
-  }
-  header.hero {
-    text-align: center;
-    padding: 24px 0 32px;
-  }
-  header.hero .app-name {
-    font-size: 1.6rem;
-    font-weight: 700;
-    margin: 0 0 6px;
-  }
-  header.hero .tagline {
-    font-size: 0.95rem;
-    color: #6e6e73;
-    margin: 0;
-  }
-  header.hero .version-pill {
-    display: inline-block;
-    margin-top: 12px;
-    padding: 4px 12px;
-    border-radius: 999px;
-    background: #f2f2f7;
-    color: #6e6e73;
-    font-size: 0.8rem;
-    font-weight: 600;
-  }
-  h2 {
-    font-size: 1.15rem;
-    font-weight: 700;
-    margin: 40px 0 12px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid #e5e5ea;
-  }
-  h3 {
-    font-size: 1rem;
-    font-weight: 700;
-    margin: 20px 0 6px;
-  }
-  p {
-    margin: 0 0 12px;
-    font-size: 0.98rem;
-  }
-  ol, ul {
-    margin: 0 0 12px;
-    padding-left: 1.3em;
-  }
-  li {
-    margin-bottom: 6px;
-    font-size: 0.98rem;
-  }
-  .qa-item {
-    margin-bottom: 18px;
-  }
-  .qa-item .q {
-    font-weight: 700;
-    margin-bottom: 4px;
-  }
-  .qa-item .q::before {
-    content: "Q. ";
-    color: #6e6e73;
-  }
-  .qa-item .a::before {
-    content: "A. ";
-    color: #6e6e73;
-  }
-  .badge-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin: 12px 0 0;
-    padding: 0;
-    list-style: none;
-  }
-  .badge-list li {
-    margin: 0;
-    background: #f2f2f7;
-    border-radius: 999px;
-    padding: 6px 14px;
-    font-size: 0.85rem;
-    color: #1c1c1e;
-  }
-  .mode-cards {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 12px;
-    margin: 12px 0 4px;
-  }
-  @media (min-width: 520px) {
-    .mode-cards {
-      grid-template-columns: 1fr 1fr;
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f6ff">
+  <title>ユメログ サポート</title>
+  <meta name="description" content="夢日記アプリ「ユメログ」の日本語サポートページです。使い方、FAQ、お問い合わせ、プライバシーについてご案内します。">
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #ffffff;
+      --text: #202027;
+      --muted: #686873;
+      --line: #e6e5ec;
+      --blue: #0878e8;
+      --blue-dark: #0067cc;
+      --blue-soft: #eef7ff;
+      --indigo: #6057c7;
+      --indigo-soft: #f1efff;
+      --pink: #bb4c87;
+      --pink-soft: #fff0f7;
+      --mint: #1b846d;
+      --mint-soft: #ebf9f5;
+      --orange: #a95d16;
+      --orange-soft: #fff5e9;
+      --shadow: 0 14px 38px rgba(53, 47, 91, 0.08);
     }
-  }
-  .mode-card {
-    background: #f9f9fb;
-    border: 1px solid #e5e5ea;
-    border-radius: 14px;
-    padding: 16px 18px;
-  }
-  .mode-card .mode-name {
-    font-weight: 700;
-    font-size: 1rem;
-    margin: 0 0 6px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-  .mode-card p {
-    margin: 0;
-    font-size: 0.92rem;
-    color: #3a3a3c;
-  }
-  .note-box {
-    background: #fff8ee;
-    border: 1px solid #f2ddb0;
-    border-radius: 12px;
-    padding: 14px 16px;
-    margin: 12px 0;
-  }
-  .note-box p {
-    margin: 0;
-    font-size: 0.9rem;
-    color: #6b5426;
-  }
-  .contact-box {
-    background: #f2f2f7;
-    border-radius: 12px;
-    padding: 16px 18px;
-  }
-  .contact-box p {
-    margin-bottom: 6px;
-  }
-  .mail-button {
-    display: block;
-    width: fit-content;
-    margin: 10px auto 0;
-    padding: 8px 16px;
-    background: #0066cc;
-    color: #ffffff;
-    text-decoration: none;
-    text-align: center;
-    font-size: 0.88rem;
-    font-weight: 600;
-    border-radius: 8px;
-    -webkit-tap-highlight-color: transparent;
-  }
-  .mail-button:hover,
-  .mail-button:focus {
-    background: #0052a3;
-    color: #ffffff;
-    text-decoration: none;
-  }
-  .changelog {
-    background: #f2f2f7;
-    border-radius: 12px;
-    padding: 16px 18px;
-  }
-  .changelog .version {
-    font-weight: 700;
-    margin-bottom: 6px;
-  }
-  .changelog ul {
-    margin: 0;
-  }
-  .changelog + .changelog {
-    margin-top: 12px;
-  }
-  .changelog .version .date {
-    margin-left: 12px;
-    font-size: 0.8rem;
-    font-weight: 400;
-    color: #6e6e73;
-  }
-  footer {
-    margin-top: 48px;
-    padding-top: 16px;
-    border-top: 1px solid #e5e5ea;
-    font-size: 0.82rem;
-    color: #8e8e93;
-    text-align: center;
-  }
-  a {
-    color: #0066cc;
-  }
-</style>
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Hiragino Maru Gothic ProN", "Hiragino Maru Gothic Pro", ui-rounded, -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.75;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    a {
+      color: var(--blue);
+      text-underline-offset: 3px;
+    }
+
+    a:hover {
+      text-decoration-thickness: 2px;
+    }
+
+    .page {
+      width: min(100%, 680px);
+      margin: 0 auto;
+      padding: 20px 20px 56px;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      margin-top: 8px;
+      padding: 34px 34px 32px;
+      border: 1px solid #e7e4fb;
+      border-radius: 30px;
+      background:
+        radial-gradient(circle at 90% 8%, rgba(255, 209, 232, 0.8) 0, rgba(255, 209, 232, 0) 34%),
+        linear-gradient(145deg, #f4f1ff 0%, #f3f9ff 65%, #ffffff 100%);
+      box-shadow: var(--shadow);
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      right: -35px;
+      bottom: -48px;
+      width: 150px;
+      height: 150px;
+      border: 28px solid rgba(96, 87, 199, 0.07);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .brand-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .app-mark {
+      display: grid;
+      flex: 0 0 54px;
+      width: 54px;
+      height: 54px;
+      place-items: center;
+      border-radius: 15px;
+      background: linear-gradient(145deg, #746bd9, #4e8fe4);
+      color: #fff;
+      box-shadow: 0 8px 18px rgba(76, 80, 174, 0.22);
+      font-size: 29px;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .eyebrow {
+      margin: 0 0 2px;
+      color: var(--indigo);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(38px, 9vw, 58px);
+      line-height: 1.05;
+      letter-spacing: -0.035em;
+    }
+
+    .lead {
+      position: relative;
+      z-index: 1;
+      margin: 22px 0 0;
+      max-width: 570px;
+      color: #50505d;
+      font-size: 18px;
+      line-height: 1.75;
+    }
+
+    .hero-tags {
+      display: flex;
+      position: relative;
+      z-index: 1;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 20px;
+    }
+
+    .hero-tag {
+      padding: 6px 11px;
+      border: 1px solid rgba(96, 87, 199, 0.15);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.75);
+      color: #515064;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    nav {
+      display: flex;
+      overflow-x: auto;
+      gap: 7px;
+      margin: 16px 0 4px;
+      padding: 6px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: #fafafd;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    nav::-webkit-scrollbar {
+      display: none;
+    }
+
+    nav a {
+      flex: 0 0 auto;
+      padding: 7px 11px;
+      border-radius: 10px;
+      color: #575761;
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    nav a:hover {
+      background: #fff;
+      color: var(--blue);
+      box-shadow: 0 2px 8px rgba(45, 45, 65, 0.07);
+    }
+
+    section {
+      scroll-margin-top: 16px;
+      padding: 42px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    section:last-of-type {
+      border-bottom: 0;
+    }
+
+    .section-head {
+      margin-bottom: 20px;
+    }
+
+    .section-label {
+      display: block;
+      margin-bottom: 3px;
+      color: var(--indigo);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 28px;
+      line-height: 1.3;
+      letter-spacing: -0.02em;
+    }
+
+    h3 {
+      margin: 0;
+      font-size: 17px;
+      line-height: 1.45;
+    }
+
+    p {
+      margin: 0 0 14px;
+    }
+
+    .intro-card {
+      padding: 24px;
+      border: 1px solid #e5e1fb;
+      border-radius: 20px;
+      background: var(--indigo-soft);
+    }
+
+    .intro-card p:last-child,
+    .contact-box p:last-of-type {
+      margin-bottom: 0;
+    }
+
+    .fact-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .fact {
+      padding: 15px 13px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: #fff;
+      text-align: center;
+    }
+
+    .fact strong {
+      display: block;
+      color: var(--indigo);
+      font-size: 14px;
+    }
+
+    .fact span {
+      display: block;
+      margin-top: 2px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .feature {
+      min-height: 100%;
+      padding: 20px;
+      border: 1px solid transparent;
+      border-radius: 20px;
+    }
+
+    .feature:nth-child(1) {
+      border-color: #d9eafa;
+      background: var(--blue-soft);
+    }
+
+    .feature:nth-child(2) {
+      border-color: #e2ddff;
+      background: var(--indigo-soft);
+    }
+
+    .feature:nth-child(3) {
+      border-color: #f4dbe8;
+      background: var(--pink-soft);
+    }
+
+    .feature:nth-child(4) {
+      border-color: #d5eee7;
+      background: var(--mint-soft);
+    }
+
+    .feature-number {
+      display: grid;
+      width: 32px;
+      height: 32px;
+      margin-bottom: 14px;
+      place-items: center;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.85);
+      color: var(--indigo);
+      font-size: 13px;
+      font-weight: 800;
+      box-shadow: 0 3px 9px rgba(45, 45, 65, 0.06);
+    }
+
+    .feature strong {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 17px;
+    }
+
+    .feature span {
+      display: block;
+      color: #5e5e69;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .steps {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      counter-reset: step;
+    }
+
+    .steps li {
+      display: grid;
+      grid-template-columns: 38px minmax(0, 1fr);
+      gap: 13px;
+      align-items: start;
+      padding: 15px 0;
+      border-bottom: 1px solid #efeff3;
+      counter-increment: step;
+    }
+
+    .steps li:last-child {
+      border-bottom: 0;
+    }
+
+    .steps li::before {
+      content: counter(step);
+      display: grid;
+      width: 34px;
+      height: 34px;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--indigo);
+      color: #fff;
+      font-size: 14px;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .steps strong {
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .steps span {
+      display: block;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.65;
+    }
+
+    .notice {
+      margin-top: 18px;
+      padding: 16px 18px;
+      border-left: 4px solid #e99548;
+      border-radius: 4px 14px 14px 4px;
+      background: var(--orange-soft);
+      color: #66492f;
+      font-size: 14px;
+    }
+
+    .faq-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .faq-item {
+      padding: 19px 20px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: #fff;
+      box-shadow: 0 5px 18px rgba(35, 34, 53, 0.04);
+    }
+
+    .faq-item h3 {
+      display: flex;
+      gap: 9px;
+      align-items: flex-start;
+      color: #33333d;
+    }
+
+    .faq-item h3::before {
+      content: "Q";
+      flex: 0 0 auto;
+      color: var(--indigo);
+      font-size: 14px;
+      font-weight: 900;
+    }
+
+    .faq-item p {
+      margin: 8px 0 0 24px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .update-card {
+      padding: 22px;
+      border: 1px solid #d7ece7;
+      border-radius: 20px;
+      background: var(--mint-soft);
+    }
+
+    .update-title {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 11px;
+      color: #276958;
+      font-weight: 800;
+    }
+
+    .update-card + .update-card {
+      margin-top: 14px;
+    }
+
+    .update-date {
+      margin-left: auto;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .update-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #31a281;
+      box-shadow: 0 0 0 4px rgba(49, 162, 129, 0.12);
+    }
+
+    ul {
+      margin: 10px 0 0;
+      padding-left: 1.3em;
+    }
+
+    li {
+      margin: 6px 0;
+    }
+
+    .muted {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .contact-box {
+      padding: 26px;
+      border: 1px solid #dceafa;
+      border-radius: 22px;
+      background: linear-gradient(145deg, #f1f8ff, #f9fbff);
+    }
+
+    .contact-hint {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .mail-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 50px;
+      margin-top: 8px;
+      padding: 0 23px;
+      border-radius: 999px;
+      background: var(--blue);
+      color: #fff;
+      box-shadow: 0 8px 20px rgba(0, 113, 227, 0.2);
+      font-weight: 800;
+      text-decoration: none;
+      transition: background 0.18s ease, transform 0.18s ease;
+    }
+
+    .mail-button::before {
+      content: "✉";
+      margin-right: 8px;
+      font-size: 16px;
+    }
+
+    .mail-button:hover {
+      background: var(--blue-dark);
+      text-decoration: none;
+      transform: translateY(-1px);
+    }
+
+    .privacy-box {
+      padding: 23px;
+      border: 1px solid #eee0e8;
+      border-radius: 20px;
+      background: #fff8fb;
+    }
+
+    .privacy-box p:last-child {
+      margin-bottom: 0;
+    }
+
+    footer {
+      padding: 18px 0 8px;
+      color: var(--muted);
+      font-size: 12px;
+      text-align: center;
+    }
+
+    @media (max-width: 560px) {
+      .page {
+        padding: 12px 14px 40px;
+      }
+
+      .hero {
+        padding: 26px 22px 25px;
+        border-radius: 24px;
+      }
+
+      .app-mark {
+        flex-basis: 48px;
+        width: 48px;
+        height: 48px;
+        border-radius: 14px;
+        font-size: 25px;
+      }
+
+      .lead {
+        margin-top: 18px;
+        font-size: 16px;
+      }
+
+      nav {
+        margin-top: 12px;
+      }
+
+      section {
+        padding: 34px 2px;
+      }
+
+      h2 {
+        font-size: 25px;
+      }
+
+      .grid,
+      .fact-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .fact {
+        display: grid;
+        grid-template-columns: 105px 1fr;
+        gap: 8px;
+        align-items: center;
+        text-align: left;
+      }
+
+      .intro-card,
+      .contact-box,
+      .privacy-box {
+        padding: 20px;
+      }
+
+      .mail-button {
+        width: 100%;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      .mail-button {
+        transition: none;
+      }
+    }
+  </style>
 </head>
 <body>
-<div class="wrap">
-
-  <header class="hero">
-    <p class="app-name">じゃんけん勝率トレーナー</p>
-    <p class="tagline">グー・チョキ・パーで連勝を伸ばそう。みんなで遊べるパーティーモードも。</p>
-    <span class="version-pill">最新バージョン 1.0.3</span>
-  </header>
-
-  <section>
-    <p>
-      「じゃんけん勝率トレーナー」は、じゃんけんの対戦結果を記録し、
-      自分の勝率や連勝の傾向を確認できる、シンプルな1画面アプリです。
-      ひとりでの練習に使える「通常モード」と、負けたらひとことメッセージが表示される
-      「パーティーモード」の2つの遊び方があります。会員登録や通信は行わず、端末の中だけで完結します。
-    </p>
-    <ul class="badge-list">
-      <li>外部送信なし</li>
-      <li>アカウント登録なし</li>
-      <li>課金なし</li>
-      <li>広告なし</li>
-    </ul>
-  </section>
-
-  <section>
-    <h2>2つのモード</h2>
-    <div class="mode-cards">
-      <div class="mode-card">
-        <p class="mode-name">📈 通常モード</p>
-        <p>勝率と連勝を記録しよう。総対戦数・勝率・現在の連勝数・最高連勝数をコツコツ記録していく、ひとり練習向けのモードです。</p>
+  <main class="page">
+    <header class="hero">
+      <div class="brand-row">
+        <div class="app-mark" aria-hidden="true">ゆ</div>
+        <div>
+          <p class="eyebrow">App Support</p>
+          <h1>ユメログ</h1>
+        </div>
       </div>
-      <div class="mode-card">
-        <p class="mode-name">🎉 パーティーモード</p>
-        <p>負けたら罰ゲーム。対戦に負けると、画面にひとこと罰ゲーム風のメッセージが表示されます。友達や家族とわいわい対戦するときにどうぞ。</p>
+      <p class="lead">夢のかけらを記録して、眠りや目覚め、夢の中の感情から自分の気持ちをそっと振り返るための夢日記アプリです。</p>
+      <div class="hero-tags" aria-label="アプリの特徴">
+        <span class="hero-tag">夢を記録</span>
+        <span class="hero-tag">振り返りをサポート</span>
+        <span class="hero-tag">端末内に保存</span>
       </div>
-    </div>
-    <div class="note-box">
-      <p>
-        パーティーモードの「罰ゲーム」は画面に表示されるメッセージのみで、アプリが飲酒などの行為を強制・記録することはありません。
-        メッセージの内容にお酒に関する言葉が含まれる場合がありますが、実際に飲むかどうかは参加者同士の判断にお任せしています。
-        未成年の方はお酒に関する内容を実際の行為には結びつけず、ルールはご参加の皆さまで安全に調整してお楽しみください。
-      </p>
-    </div>
-  </section>
+    </header>
 
-  <section>
-    <h2>使い方</h2>
-    <ol>
-      <li>「勝負を始める」をタップすると、あなたと相手の手がルーレット表示になります。</li>
-      <li>グー・チョキ・パーのいずれかをタップして手を決めます。</li>
-      <li>相手の手と勝敗結果（勝ち・負け・あいこ）がその場で表示されます。パーティーモードで負けた場合は、罰ゲーム風のメッセージが合わせて表示されます。</li>
-      <li>総対戦数・勝ち数・負け数・あいこ数・勝率・現在の連勝数・最高連勝数が自動で集計されます。</li>
-      <li>画面右上のアイコンをタップすると、通常モードとパーティーモードをいつでも切り替えられます。それぞれの記録は別々に保存されます。</li>
-      <li>記録をやり直したいときは「戦績をリセット」をタップし、確認ダイアログで「リセットする」を選ぶと、現在表示中のモードの記録がすべて消去されます（誤タップ防止のため、確認せずに消えることはありません）。</li>
-    </ol>
-  </section>
+    <nav aria-label="ページ内メニュー">
+      <a href="#overview">概要</a>
+      <a href="#features">主な機能</a>
+      <a href="#howto">使い方</a>
+      <a href="#faq">FAQ</a>
+      <a href="#updates">更新情報</a>
+      <a href="#contact">お問い合わせ</a>
+      <a href="#privacy">プライバシー</a>
+    </nav>
 
-  <section>
-    <h2>よくある質問</h2>
+    <section id="overview">
+      <div class="section-head">
+        <span class="section-label">ABOUT</span>
+        <h2>アプリ概要</h2>
+      </div>
+      <div class="intro-card">
+        <p>ユメログは、見た夢を日付ごとに残し、夢に出てきたもの、夢の中の感情、眠りの状態、起床時の気分をもとに診断結果を表示します。</p>
+        <p>夢を正解・不正解で判断するものではありません。毎日の記録を積み重ねながら、自分の気持ちや睡眠とのつながりを振り返るためにお使いください。</p>
+      </div>
+      <div class="fact-grid" aria-label="ユメログの基本情報">
+        <div class="fact">
+          <strong>3つの画面</strong>
+          <span>記録・ゆめ日記・傾向</span>
+        </div>
+        <div class="fact">
+          <strong>端末内保存</strong>
+          <span>夢の記録をローカル保存</span>
+        </div>
+        <div class="fact">
+          <strong>ルール式診断</strong>
+          <span>辞書と選択項目から表示</span>
+        </div>
+      </div>
+    </section>
 
-    <div class="qa-item">
-      <p class="q">通常モードとパーティーモードで記録は共有されますか？</p>
-      <p class="a">共有されません。モードごとに勝率や連勝数が別々に記録され、片方をリセットしてももう片方の記録には影響しません。</p>
-    </div>
+    <section id="features">
+      <div class="section-head">
+        <span class="section-label">FEATURES</span>
+        <h2>主な機能</h2>
+      </div>
+      <div class="grid">
+        <div class="feature">
+          <span class="feature-number">01</span>
+          <strong>夢の記録</strong>
+          <span>日付、昨夜の眠り、目覚めたときの気分、夢の中で感じたこと、夢に出てきたキーワード、自由メモを記録できます。</span>
+        </div>
+        <div class="feature">
+          <span class="feature-number">02</span>
+          <strong>保存後の診断</strong>
+          <span>選択した項目から、総合的な読み解き、象徴の意味、感情との関係、眠りと目覚め、今日への導きを表示します。</span>
+        </div>
+        <div class="feature">
+          <span class="feature-number">03</span>
+          <strong>ゆめ日記</strong>
+          <span>保存した夢を一覧で確認できます。カレンダーで日付を選び、その日の記録だけを振り返ることもできます。</span>
+        </div>
+        <div class="feature">
+          <span class="feature-number">04</span>
+          <strong>睡眠と夢の傾向</strong>
+          <span>記録数、眠りのタイプ、平均感情数に加え、睡眠状態ごとによく現れる感情やキーワードを確認できます。</span>
+        </div>
+      </div>
+    </section>
 
-    <div class="qa-item">
-      <p class="q">記録はどこに保存されますか？</p>
-      <p class="a">記録はお使いの端末内にのみ保存されます。インターネットには一切送信されません。</p>
-    </div>
+    <section id="howto">
+      <div class="section-head">
+        <span class="section-label">HOW TO USE</span>
+        <h2>使い方</h2>
+      </div>
+      <ol class="steps">
+        <li>
+          <div><strong>日付を選ぶ</strong><span>「記録する」タブで、夢を見た日付を選びます。</span></div>
+        </li>
+        <li>
+          <div><strong>眠りと目覚めを選ぶ</strong><span>昨夜の眠りと、目覚めたときの気分を選びます。どちらも複数選択できます。</span></div>
+        </li>
+        <li>
+          <div><strong>夢の感情やキーワードを選ぶ</strong><span>夢の中で感じたこと、または人物・もの・場所・状況などのキーワードを選びます。</span></div>
+        </li>
+        <li>
+          <div><strong>必要ならメモを残す</strong><span>夢の内容や気づきを自由に入力できます。メモの文章は診断には使われません。</span></div>
+        </li>
+        <li>
+          <div><strong>記録して診断を見る</strong><span>ボタンを押すと記録が保存され、選んだ内容に応じた診断結果が表示されます。</span></div>
+        </li>
+        <li>
+          <div><strong>あとから振り返る</strong><span>過去の記録は「ゆめ日記」、集計結果は「傾向」タブで確認できます。</span></div>
+        </li>
+      </ol>
+      <div class="notice"><strong>保存に必要な項目：</strong>「昨夜の眠り」と「目覚めたときの気分」に加えて、「夢の中で感じたこと」または「夢のキーワード」のどちらかを選択してください。</div>
+    </section>
 
-    <div class="qa-item">
-      <p class="q">アプリを削除すると記録はどうなりますか？</p>
-      <p class="a">アプリをアンインストールすると、端末内に保存されていた記録（通常モード・パーティーモードとも）もあわせて削除されます。</p>
-    </div>
+    <section id="faq">
+      <div class="section-head">
+        <span class="section-label">FAQ</span>
+        <h2>よくある質問</h2>
+      </div>
+      <div class="faq-list">
+        <div class="faq-item">
+          <h3>診断はどのように作られますか？</h3>
+          <p>夢のキーワード、夢の中の感情、眠りの状態、起床時の気分をもとに、アプリ内の辞書とルールで診断文を表示します。</p>
+        </div>
+        <div class="faq-item">
+          <h3>自由メモは診断に使われますか？</h3>
+          <p>いいえ。自由メモは夢の内容や気づきを残すための項目です。入力した文章は診断には使用されません。</p>
+        </div>
+        <div class="faq-item">
+          <h3>記録を削除できますか？</h3>
+          <p>はい。「ゆめ日記」の一覧から、不要になった記録を削除できます。</p>
+        </div>
+        <div class="faq-item">
+          <h3>夢を覚えていない日も記録できますか？</h3>
+          <p>眠りの状態や起床時の気分には「覚えてない」を選べます。保存するには、夢の感情またはキーワードも選択してください。</p>
+        </div>
+        <div class="faq-item">
+          <h3>傾向はいつ表示されますか？</h3>
+          <p>夢の記録があると「傾向」タブで集計が表示されます。記録が増えるほど、睡眠状態ごとの傾向を見返しやすくなります。</p>
+        </div>
+        <div class="faq-item">
+          <h3>記録したデータはどこに保存されますか？</h3>
+          <p>記録はアプリの端末内領域に保存されます。現在のアプリには、ユーザーアカウントを作成する機能はありません。</p>
+        </div>
+        <div class="faq-item">
+          <h3>診断は医療や心理相談の代わりになりますか？</h3>
+          <p>いいえ。診断は気持ちを振り返るためのヒントであり、医療行為、心理療法、専門的な助言を行うものではありません。</p>
+        </div>
+      </div>
+    </section>
 
-    <div class="qa-item">
-      <p class="q">機種変更したら記録は引き継げますか？</p>
-      <p class="a">記録は端末内にのみ保存されており、外部やクラウドへのバックアップは行っていないため、機種変更時に自動で引き継ぐことはできません。</p>
-    </div>
+    <section id="updates">
+      <div class="section-head">
+        <span class="section-label">UPDATES</span>
+        <h2>更新情報</h2>
+      </div>
+      <div class="update-card">
+        <div class="update-title"><span class="update-dot" aria-hidden="true"></span>バージョン 1.0.1<time class="update-date" datetime="2026-09-12">2026年9月12日</time></div>
+        <ul>
+          <li>表示の不具合を修正し、使い心地を改善しました。</li>
+        </ul>
+      </div>
 
-    <div class="qa-item">
-      <p class="q">パーティーモードは実際にお酒を飲むことを前提にしていますか？</p>
-      <p class="a">いいえ。アプリが飲酒を要求したり記録したりすることはありません。表示されるのはあくまでテキストメッセージで、遊び方は参加者の皆さまの判断にお任せしています。</p>
-    </div>
+      <div class="update-card">
+        <div class="update-title"><span class="update-dot" aria-hidden="true"></span>バージョン 1.0</div>
+        <ul>
+          <li>「ユメログ」を公開しました。</li>
+        </ul>
+      </div>
 
-    <div class="qa-item">
-      <p class="q">広告や課金はありますか？</p>
-      <p class="a">広告表示、アプリ内課金、サブスクリプションはいずれもありません。無料で全機能をお使いいただけます。</p>
-    </div>
+      <div class="update-card">
+        <div class="update-title"><span class="update-dot" aria-hidden="true"></span>現在ご利用いただける主な内容</div>
+        <ul>
+          <li>夢の記録、保存、削除</li>
+          <li>保存後の診断結果表示</li>
+          <li>カレンダー付きのゆめ日記</li>
+          <li>睡眠状態ごとの感情・キーワード傾向表示</li>
+        </ul>
+      </div>
+      <p class="muted">詳しい変更履歴は、App Storeに表示されるバージョン履歴をご確認ください。</p>
+    </section>
 
-    <div class="qa-item">
-      <p class="q">アカウント登録は必要ですか？</p>
-      <p class="a">不要です。ダウンロード後すぐにお使いいただけます。</p>
-    </div>
+    <section id="contact">
+      <div class="section-head">
+        <span class="section-label">CONTACT</span>
+        <h2>お問い合わせ</h2>
+      </div>
+      <div class="contact-box">
+        <p>不具合のご報告、ご質問、ご要望はメールでお問い合わせください。</p>
+        <p class="contact-hint">端末名、iOSのバージョン、問題が起きるまでの操作を添えていただくと、状況を確認しやすくなります。</p>
+        <a class="mail-button" href="mailto:createlabone@gmail.com?subject=%E3%83%A6%E3%83%A1%E3%83%AD%E3%82%B0%20%E3%82%B5%E3%83%9D%E3%83%BC%E3%83%88%E5%95%8F%E3%81%84%E5%90%88%E3%82%8F%E3%81%9B">メールで問い合わせる</a>
+      </div>
+    </section>
 
-    <div class="qa-item">
-      <p class="q">オフラインでも使えますか？</p>
-      <p class="a">はい。本アプリは通信を行わないため、電波の届かない場所でもすべての機能をご利用いただけます。</p>
-    </div>
-  </section>
+    <section id="privacy">
+      <div class="section-head">
+        <span class="section-label">PRIVACY</span>
+        <h2>プライバシー</h2>
+      </div>
+      <div class="privacy-box">
+        <p>ユメログの記録データは、端末内のアプリ専用領域に保存されます。保存内容には、日付、眠りの状態、起床時の気分、夢の中の感情、夢のキーワード、自由メモが含まれます。</p>
+        <p>現在のアプリには、記録内容を外部サーバーへ送信する処理や、ユーザーアカウントを作成する機能はありません。</p>
+        <p>診断はアプリ内の辞書とルールに基づくもので、医療、心理療法、専門的助言の代替ではありません。</p>
+      </div>
+    </section>
 
-  <section>
-    <h2>更新情報</h2>
-    <div class="changelog">
-      <p class="version">バージョン 1.0.3<time class="date" datetime="2026-09-12">2026年9月12日</time></p>
-      <ul>
-        <li>表示の不具合を修正し、動作を安定させました。</li>
-      </ul>
-    </div>
-
-    <div class="changelog">
-      <p class="version">バージョン 1.0.1</p>
-      <ul>
-        <li>「パーティーモード」を追加。負けると罰ゲーム風のメッセージが表示されます。</li>
-        <li>画面レイアウトを全体的に見直し、暗めのテーマでより見やすく表示されるようにしました。</li>
-        <li>通常モードとパーティーモードで戦績を別々に記録するようにしました。</li>
-      </ul>
-    </div>
-  </section>
-
-  <section>
-    <h2>お問い合わせ</h2>
-    <div class="contact-box">
-      <p>不具合のご報告やご要望などは、下のボタンからお気軽にお送りください。</p>
-      <a class="mail-button" href="mailto:createlabone@gmail.com?subject=%E3%81%98%E3%82%83%E3%82%93%E3%81%91%E3%82%93%E5%8B%9D%E7%8E%87%E3%83%88%E3%83%AC%E3%83%BC%E3%83%8A%E3%83%BC%20%E3%81%8A%E5%95%8F%E3%81%84%E5%90%88%E3%82%8F%E3%81%9B">メールで問い合わせる</a>
-    </div>
-  </section>
-
-  <section>
-    <h2>プライバシーについて</h2>
-    <p>
-      本アプリは、氏名・メールアドレス・位置情報などの個人情報を一切収集しません。
-      アカウント登録やログイン機能もありません。
-    </p>
-    <p>
-      対戦成績（総対戦数・勝敗数・あいこ数・勝率・連勝記録）は、通常モード・パーティーモードごとにお使いの端末内にのみ保存され、
-      外部のサーバーやサービスへ送信されることはありません。
-    </p>
-    <p>
-      広告表示、第三者トラッキング、解析SDKの組み込みは行っていません。
-    </p>
-    <p>
-      アプリ内の「戦績をリセット」機能、またはアプリ自体のアンインストールにより、
-      保存されたすべてのデータは端末から削除されます。
-    </p>
-    <p>
-      プライバシーポリシーの詳細については、開発者までお問い合わせください。
-    </p>
-  </section>
-
-  <footer>
-    <p>じゃんけん勝率トレーナー サポートページ</p>
-  </footer>
-
-</div>
+    <footer>
+      <p>&copy; ユメログ　サポートページ</p>
+    </footer>
+  </main>
 </body>
 </html>
